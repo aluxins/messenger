@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Test</title>
+    </head>
+    
+    <body>
+        <pre>
+        This is view - hello <?=htmlspecialchars($name)?>
+        <br/>
+<?=var_dump($test)?>
+
+<br/><br/>
+<?=var_dump($name1)?>
+<?
+foreach($name1 as $el){
+    echo  '<br />'. $el->id .': '. $el->name;
+}
+?>
+<br/>
+<?=htmlspecialchars($name3)?>
+<br/>pag:
+<?=var_dump($name)?>
+<br/>
+<?=var_dump($allPost)?>
+<br/>
+<?=var_dump($allGet)?>
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="userFile[]" multiple="multiple">
+    <input name="post2" value="testinput2">
+    <input type="submit">
+    </form>
+<?=$img_content_str?>
+    <br/>
+<img src="data:image/jpeg;base64,<?=$captcha?>" />
+</pre>
+</body>
+</html>

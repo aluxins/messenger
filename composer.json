@@ -1,0 +1,5 @@
+{
+    "require": {
+        "workerman/webman": "^1.5"
+    }
+}

@@ -1,0 +1,174 @@
+<?=$header?>
+    <section>
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-auto mb-3 col-10 col-lg-8 bg-light rounded m-4">
+              <p class="text-center fs-5 text-muted"><?=$title?></p>
+            <ul class="nav nav-pills nav-justified my-3" id="pills-tab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link<?=$type=='login'?' active':''?>" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" 
+                    type="button" role="tab" aria-controls="pills-home" aria-selected="<?=$type=='login'?'true':'false'?>">Войти</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link<?=$type=='register'?' active':''?>" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" 
+                    type="button" role="tab" aria-controls="pills-profile" aria-selected="<?=$type=='register'?'true':'false'?>">Регистрация</button>
+              </li>
+            </ul>
+
+            <div class="tab-content mt-5" id="pills-tabContent">
+              <div class="tab-pane fade<?=$type=='login'?' show active':''?>" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <?if($type=='login' && !empty($error['msg'])){?>
+                  <div class="alert alert-danger" role="alert">
+                    <?=$error['msg']?>
+                  </div>
+                <?}?>
+                <form action="login" method="post" novalidate>
+
+                  <!-- Nick input -->
+                  <div class="form-outline mb-4">
+                    <input type="text" name="loginName" id="loginName" class="form-control"
+                        maxlength="<?=$parametersForm['maxLength']?>" value="<?=$data['loginName']?>" />
+                    <label class="form-label" for="loginName">Никнейм</label>
+                  </div>
+            
+                  <!-- Password input -->
+                  <div class="form-outline mb-4">
+                    <input type="password" name="loginPassword" id="loginPassword" class="form-control"
+                        maxlength="<?=$parametersForm['maxLength']?>" value="<?=$data['loginPassword']?>" />
+                    <label class="form-label" for="loginPassword">Пароль</label>
+                  </div>
+            
+                  <!-- 2 column grid layout -->
+                  <div class="row mb-4">
+                    <div class="col-md-6 d-flex justify-content-center">
+                      <!-- Checkbox -->
+                      <div class="form-check mb-3 mb-md-0">
+                        <input class="form-check-input" type="checkbox" value="1" name="loginCheck" id="loginCheck" 
+                            <?if($data['loginCheck']==1){?>checked<?}?> />
+                        <label class="form-check-label" for="loginCheck">
+                          Запомнить
+                        </label>
+                      </div>
+                    </div>
+                    <!-- 
+                    <div class="col-md-6 d-flex justify-content-center">
+                      <!-- Simple link
+                      <a href="#!">Забыли пароль?</a>
+                    </div>
+                    --> 
+                  </div>
+            
+                  <!-- Submit button -->
+                  <button type="submit" class="btn btn-primary btn-block mb-4">Войти</button>
+            
+                </form>
+              </div>
+              <div class="tab-pane fade<?=$type=='register'?' show active':''?>" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <?if($type=='register' && !empty($error['msg'])){?>
+                  <div class="alert alert-danger" role="alert">
+                    <?=$error['msg']?>
+                    <div class="fw-light"><?=$error['description']?></div>
+                  </div>
+                <?}?>
+                <form action="register" method="post" enctype="multipart/form-data">
+
+                  <!-- Nick input -->
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="registerUsername">Никнейм</label>
+                    <input type="text" name="registerUsername" id="registerUsername" class="form-control"
+                        maxlength="<?=$parametersForm['maxLength']?>" value="<?=$data['registerUsername']?>" />
+                  </div>
+                  
+                  <!-- Username input -->
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="registerName">Ваше имя</label>
+                    <input type="text" name="registerName" id="registerName" class="form-control"
+                        maxlength="<?=$parametersForm['maxLength']?>" value="<?=$data['registerName']?>" />
+                  </div>
+                  
+                  <!-- Default avatar input -->
+                  <label class="form-label" for="registerAvatarBlock">Аватар</label>
+                  <div class="form-outline mb-2 d-flex flex-row overflow-auto" id="registerAvatarBlock">
+                    <div class="form-check form-check-inline d-flex flex-row-reverse">
+                      <input class="form-check-input" type="radio" name="registerAvatarDefault" id="registerAvatarDefault0" value="avatar-0.webp" 
+                        <?if(in_array($data['registerAvatarDefault'], ['','avatar-0.webp']))echo'checked'?>>
+                      <label class="form-check-label" for="registerAvatarDefault0">
+                        <img alt="avatar" id="user-avatar" src="../upload/avatar-0.webp"
+                            title="Случайный выбор" class="rounded-circle m-1 shadow-1-strong" width="70">
+                      </label>
+                    </div>
+                    <?for($i=1;$i<=$parametersForm['maxAvatarDefault'];$i++){?>
+                    <div class="form-check form-check-inline d-flex flex-row-reverse">
+                      <input class="form-check-input" type="radio" name="registerAvatarDefault" id="registerAvatarDefault<?=$i?>" value="avatar-<?=$i?>.webp"
+                      <?if($data['registerAvatarDefault']=='avatar-'.$i.'.webp')echo'checked'?>>
+                      <label class="form-check-label" for="registerAvatarDefault<?=$i?>">
+                        <img alt="avatar" id="user-avatar" src="../upload/avatar-<?=$i?>.webp"
+                            class="rounded-circle m-1 shadow-1-strong" width="70">
+                      </label>
+                    </div>
+                    <?}?>
+                  </div>
+                  
+                  <!-- Avatar input -->
+                  <div class="form-outline mb-5">
+                    <label class="form-label" for="formFile">Свое изображение 
+                      <span class="fw-lighter ms-2"> max <?=$parametersForm['maxSizeFile']?> Mb</span>
+                    </label>
+                    <input class="form-control" type="file" name="registerAvatar" id="registerAvatar" accept="image/*" />
+                  </div>
+            
+                  <!-- Password input -->
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="registerPassword">Пароль</label>
+                    <input type="password" name="registerPassword" id="registerPassword" class="form-control" 
+                        maxlength="<?=$parametersForm['maxLength']?>" value="<?=$data['registerPassword']?>" />
+                  </div>
+            
+                  <!-- Repeat Password input -->
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="registerRepeatPassword">Пароль ещё раз</label>
+                    <input type="password" name="registerRepeatPassword" id="registerRepeatPassword" class="form-control"
+                        maxlength="<?=$parametersForm['maxLength']?>" value="<?=$data['registerRepeatPassword']?>" />
+                  </div>
+                  
+                  <!-- Captcha -->
+                  <label class="form-label" for="registerCaptchaBlock">Проверочный код (Captcha)</label>
+                  <div class="row form-outline mb-4" id="registerCaptchaBlock" >
+                      <div class="col-md-6">
+                        <input type="text" name="registerCaptcha" id="registerCaptcha" class="form-control float-start" 
+                            maxlength="<?=$parametersForm['maxLength']?>" value="<?=$data['registerCaptcha']?>" />
+                      </div>
+                      <div class="col-md-6">
+                        <img src="data:image/jpeg;base64,<?=$data['imgCaptcha']?>" />
+                      </div>
+                  </div>
+                  
+                  <!-- Checkbox -->
+                  <div class="form-check mb-4">
+                    <input class="form-check-input me-2" type="checkbox" value="1" name="registerCheck" id="registerCheck"
+                        <?if($data['registerCheck']==1){?>checked<?}?> />
+                    <label class="form-check-label" for="registerCheck">
+                      Примите условия и соглашения
+                    </label>
+                  </div>
+
+                  <!-- Submit button -->
+                  <button type="submit" class="btn btn-primary btn-block mb-3">Регистрация</button>
+                </form>
+              </div>
+            </div>    
+                
+            <?if(!empty($error['validate']['name'])){?>
+            <script>
+              (function () {
+                'use strict'
+                document.getElementById('<?=$error['validate']['name']?>').style.borderColor = '#dc3545';
+              })()
+            </script> 
+            <?}?>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+<?=$footer?>

@@ -1,0 +1,129 @@
+<?=$header?>
+<section>
+  <div class="container py-2 mh-50">
+
+<nav class="navbar navbar-light bg-light rounded">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+      <i class="bi bi-messenger"></i> Мессенджер
+    </a>
+    <div class="d-flex">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex flex-row " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <p class="d-flex fw-bold m-1 align-items-center" id="user-name"></p>
+            <img src="" alt="avatar" id="user-avatar" class="rounded-circle d-flex align-self-start m-1 shadow-1-strong" width="40">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end position-absolute" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="#" id="sock-recon-butt">reconnect</a></li>
+            <li><a class="dropdown-item" href="#" id="sock-disc-butt">disconnect</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/user/quit" >Выход</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>    
+    
+    <div class="row mt-3">
+      <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
+        <h5 class="mb-3 text-center text-lg-start">Контакты</h5>
+        <div class="card">
+          <div class="card-body">
+            <ul class="list-unstyled mb-0 overflow-y-scroll" id="container-contacts" style="height:700px;">
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-7 col-xl-8">
+        <h5 class="mb-3 text-center text-lg-start">Сообщения</h5>
+        <div class="card">
+          <h6 class="card-header" id="container-messages-name" data-text="Чат с "></h6>
+          <div class="card-body">
+            <ul class="list-unstyled overflow-y-scroll overflow-x-hidden" id="container-messages" style="height:485px;">
+              <li class="border d-inline-block h-100 w-100 ">
+                <div class="position-relative top-50 text-center">
+                  <p class="mb-0 text-muted">Выберите чат</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <ul class="list-unstyled d-none" id="container-sender">
+              <li class="bg-white mb-3">
+                <div class="form-floating">
+                  <textarea class="form-control mb-2" placeholder="" id="sock-msg" maxlength="<?=$maxChar?>" style="height:100px"></textarea>
+                  <label for="sock-msg">Message</label>
+                  <button type="button" class="btn btn-info btn-rounded float-end" id="sock-send-butt">Send</button>
+                </div>
+              </li>
+            </ul> 
+          </div>
+        </div>
+      </div>
+    </div>
+
+<nav class="navbar navbar-light bg-light mt-3 rounded">
+  <div class="container-fluid">
+    <span class="navbar-text"><i class="bi bi-pencil-square fs-5 m-1"></i><?=$title?></span>
+    <div class="d-flex" id="status-alert"></div>
+  </div>
+</nav>
+
+</div>
+</section>
+
+<div style="display:none" id="case-contact">
+    <li class="p-2 border-bottom" id="case-contact-%ID%" data-active="bg-secondary bg-gradient bg-opacity-10" data-user="%ID%">
+        <a href="#!" class="text-decoration-none" id="case-contact-a-%ID%">
+          <div class="d-flex mb-3 w-100" style="max-height: 60px;">
+            <div class="pt-1">
+                <img src="" alt="avatar"  id="case-contact-avatar-%ID%"
+                  class="rounded-circle align-self-center me-3 shadow-1-strong" width="60">
+            </div>
+            <div class="pt-1 overflow-hidden flex-grow-1">
+              <p class="fw-bold text-break overflow-hidden mb-0" id="case-contact-name-%ID%"></p>
+              <p class="small text-muted text-break overflow-hidden" id="case-contact-lastmess-%ID%"></p>
+            </div>
+            <div class="pt-1">
+              <p class="small text-muted text-end mb-1" id="case-contact-status-%ID%"></p>
+              <p class="badge bg-danger rounded-pill float-end" id="case-contact-unreadmess-%ID%"></p>
+            </div>
+          </div>
+        </a>
+    </li>    
+</div>
+
+<div style="display:none" id="case-message-i">
+    <li class="d-flex justify-content-between mb-4" id="case-message-%ID%">
+        <div class="card w-100">
+          <div class="card-header d-flex justify-content-between p-3">
+            <p class="fw-bold mb-0" id="case-message-name-%ID%"></p>
+            <p class="text-muted small mb-0" id="case-message-time-%ID%"></p>
+          </div>
+          <div class="card-body">
+            <p class="mb-0" id="case-message-msg-%ID%"></p>
+          </div>
+        </div>
+        <img src="" alt="avatar" id="case-message-avatar-%ID%"
+          class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+    </li>
+</div>
+
+<div style="display:none" id="case-message-from">
+    <li class="d-flex justify-content-between mb-4" id="case-message-%ID%">
+        <img src="" alt="avatar" id="case-message-avatar-%ID%"
+          class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+        <div class="card w-100">
+          <div class="card-header d-flex justify-content-between p-3">
+            <p class="fw-bold mb-0" id="case-message-name-%ID%"></p>
+            <p class="text-muted small mb-0" id="case-message-time-%ID%"></p>
+          </div>
+          <div class="card-body">
+            <p class="mb-0" id="case-message-msg-%ID%"></p>
+          </div>
+        </div>
+    </li>
+</div>
+<?=$footer?>
