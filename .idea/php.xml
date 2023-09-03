@@ -10,6 +10,59 @@
     <option name="highlightLevel" value="WARNING" />
     <option name="transferred" value="true" />
   </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/webman/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/webman/vendor/psr/clock" />
+      <path value="$PROJECT_DIR$/webman/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/webman/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/webman/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/webman/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/webman/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/webman/vendor/voku/portable-ascii" />
+      <path value="$PROJECT_DIR$/webman/vendor/brick/math" />
+      <path value="$PROJECT_DIR$/webman/vendor/nikic/fast-route" />
+      <path value="$PROJECT_DIR$/webman/vendor/casbin/casbin" />
+      <path value="$PROJECT_DIR$/webman/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/webman/vendor/webman/captcha" />
+      <path value="$PROJECT_DIR$/webman/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/webman/vendor/respect/stringifier" />
+      <path value="$PROJECT_DIR$/webman/vendor/symfony/cache" />
+      <path value="$PROJECT_DIR$/webman/vendor/symfony/cache-contracts" />
+      <path value="$PROJECT_DIR$/webman/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/webman/vendor/symfony/expression-language" />
+      <path value="$PROJECT_DIR$/webman/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/webman/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/webman/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/webman/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/webman/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/webman/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/webman/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/webman/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/webman/vendor/teamones/casbin" />
+      <path value="$PROJECT_DIR$/webman/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/webman/vendor/s1lentium/iptools" />
+      <path value="$PROJECT_DIR$/webman/vendor/workerman/crontab" />
+      <path value="$PROJECT_DIR$/webman/vendor/workerman/validation" />
+      <path value="$PROJECT_DIR$/webman/vendor/workerman/webman-framework" />
+      <path value="$PROJECT_DIR$/webman/vendor/workerman/workerman" />
+      <path value="$PROJECT_DIR$/webman/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/bus" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/collections" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/conditionable" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/container" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/contracts" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/database" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/events" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/macroable" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/pagination" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/pipeline" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/redis" />
+      <path value="$PROJECT_DIR$/webman/vendor/illuminate/support" />
+      <path value="$PROJECT_DIR$/webman/vendor/intervention/image" />
+      <path value="$PROJECT_DIR$/webman/vendor/composer" />
+    </include_path>
+  </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
