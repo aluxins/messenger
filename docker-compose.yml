@@ -37,7 +37,7 @@ services:
       - 40991:40991
     working_dir: /app
     volumes:
-      - ../Messenger/webman:/app
+      - ./webman:/app
     environment:
       DB_HOST: mysql
     depends_on:
