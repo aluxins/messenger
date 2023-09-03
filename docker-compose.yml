@@ -1,0 +1,49 @@
+version: '3.8'
+
+# Services
+services:
+
+  # Nginx Service
+
+
+  # MySQL Service
+  mysql:
+    #image: mariadb:latest
+    image: mysql:8.1
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: messenger
+    volumes:
+      - ./.docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - mysqldata:/var/lib/mysql
+
+  # PhpMyAdmin Service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mysql
+    depends_on:
+      - mysql
+
+  # PHP Service
+  php:
+    build: ./.docker/php
+    #image: myserver2-php:latest
+    ports:
+      - 80:40990
+      - 40991:40991
+    working_dir: /app
+    volumes:
+      - ../Messenger/webman:/app
+    environment:
+      DB_HOST: mysql
+    depends_on:
+      - mysql
+
+# Volumes
+volumes:
+
+  mysqldata:
