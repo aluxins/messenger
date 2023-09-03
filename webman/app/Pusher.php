@@ -38,6 +38,7 @@ class Pusher
 
     public function onClose(TcpConnection $connection)
     {
-        WSUsers::UnsetUser($connection->Sec_WebSocket_Key);
+        if(!empty($connection->Sec_WebSocket_Key))
+            WSUsers::UnsetUser($connection->Sec_WebSocket_Key);
     }
 }

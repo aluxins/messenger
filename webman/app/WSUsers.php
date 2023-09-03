@@ -4,6 +4,7 @@ namespace app\MyProject;
 use app\model\Users;
 use Respect\Validation\Validator as v;
 use Respect\Validation\Exceptions\ValidationException;
+use support\Log;
 
 class WSUsers{
     private static  $array_user = [],// { id_user = { connection1, connection2, ... } }
@@ -14,7 +15,7 @@ class WSUsers{
     public static function AddId($connection){
         $id_user = $connection->session->get('id_user');
         $Sec_WebSocket_Key = $connection->Sec_WebSocket_Key;
-
+        Log::info('Sec_WebSocket_Key: '. $Sec_WebSocket_Key);
         self::$array_user[$id_user][] = $connection;
 
         //Получаем данные пользователя из БД

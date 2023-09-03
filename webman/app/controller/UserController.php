@@ -79,7 +79,7 @@ class UserController
     
     public function login(Request $request)
     {
-        $error = [];
+        $error = ['msg' => '', 'description' => ''];
         if (count($request->post()) > 0){
             try { //Проверка валидности данных
                 $data = v::input($request->post(), [
@@ -120,7 +120,7 @@ class UserController
     public function register(Request $request)
     {
         $session = $request->session();
-        $error = [];
+        $error = ['msg' => '', 'description' => ''];
         $registerCheck = 0;
         $data = $request->post();
         if (count($data) > 0){

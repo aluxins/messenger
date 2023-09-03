@@ -16,22 +16,22 @@ return [
     'default' => 'mysql',
 
     'connections' => [
-        'mysql' => [
+        'mysql' => array(
             'driver'      => 'mysql',
-            'host'        => 'localhost',
+            'host'        => empty($_ENV['DB_HOST'])?'127.0.0.1':$_ENV['DB_HOST'],
             'port'        => 3306,
-            'database'    => 'test',
-            'username'    => 'test',
-            'password'    => 'generator',
+            'database'    => 'messenger',
+            'username'    => 'root',
+            'password'    => 'root',
             'unix_socket' => '',
             'charset'     => 'utf8',
             'collation'   => 'utf8_unicode_ci',
             'prefix'      => '',
             'strict'      => true,
             'engine'      => null,
-            'options' => [
+            'options' => array(
                 \PDO::ATTR_TIMEOUT => 3
-            ]
-        ],
+            )
+        ),
     ],
 ];
