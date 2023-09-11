@@ -33,6 +33,17 @@ class WSUsers{
         
         //Рассылаем новый контакт
         self::MessageSys('contacts', [$id_user => self::$array_users_info[$id_user]]);
+        
+        //Рассылаем контакт echo-bot
+        if(config('app.echo_bot_id'))
+            $connection->send(self::JsonEncode($id_user, ['contacts' => [config('app.echo_bot_id') => [
+                    'name' => 'Echo-Bot', 
+                    'avatar' => 'avatar-bot.webp', 
+                    'lastmess' => '', 
+                    'unreadmess' => '', 
+                    'status' => microtime(true),
+                ]
+            ]], 0, microtime(true)));  
     }
   
     //Удаляем пользователя из всех массивов
@@ -88,11 +99,22 @@ class WSUsers{
                             $cocketConnection->send($msg);
                     }
 
-                    //Приватное сообщение
+                    //Сообщение собеседнику
                     if(array_key_exists($data_obj["fId"], self::$array_user)){
                         foreach (self::$array_user[$data_obj["fId"]] as $cocketConnection)
                             $cocketConnection->send($msg);
                     }
+                    
+                    //Сообшение от echo-bot
+                    if(config('app.echo_bot_id') and config('app.echo_bot_id') == $data_obj["fId"])
+                        $cocketConnection->send(
+                                self::JsonEncode(config(
+                                    'app.echo_bot_id'), 
+                                    'Тест ОК - ' . date('l jS \of F Y H:i:s') . ' - ' . strlen($data_obj["msg"]) . 
+                                        ' - ' . $hash = hash( 'crc32', $data_obj["msg"]), 
+                                    $data_obj["fId"], $unix_time.'0'
+                                )
+                        );
                 }
                 
                 //Системные сообщения

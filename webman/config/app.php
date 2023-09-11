@@ -24,4 +24,5 @@ return [
     'controller_suffix' => 'Controller',
     'controller_reuse' => false,
     'max_char_msg' => 500,
+    'echo_bot_id' => 1, //false или ID бота
 ];

@@ -11,6 +11,9 @@
 	const contacts = {};
 
     const parameters = {
+        
+        'containerMessenger' :   document.getElementById('container-messenger'),
+        
         //Контейнер контактов и шаблон контакта
 	    'containerContacts' :   document.getElementById('container-contacts'),
 		'caseContact'       :   document.getElementById('case-contact'),
@@ -50,6 +53,11 @@
 	    'fId'               :   0
     };
     
+    var resize = function () {
+        parameters.containerMessenger.style.width = document.documentElement.clientWidth + 'px';
+        parameters.containerMessenger.style.height = document.documentElement.clientHeight + 'px';
+    };
+    
     //Инициализация событий элементов интерфейса 
     var init = function () {
         
@@ -86,28 +94,30 @@
     function selectContact(id){
         let el = document.getElementById(id),
             cl = el.dataset.active.split(' '),
-            us = el.dataset.user,
+            us = Number(el.dataset.user),
             old = document.getElementById('case-contact-'+parameters.fId);
             
-        //Определяем ID собеседника
-        parameters.fId = Number(us);
-
-        //Добавляем фон активному контакту
-        cl.forEach((element) => el.classList.add(element));
-       
-        //Удаляем фон у предыдущего активного контакта
-        cl.forEach((element) => { if(old) old.classList.remove(element) });
-        
-        //Делаем отчистку контейнера сообщений
-        parameters.containerMessage.innerHTML = '';
-        parameters.containerSender.classList.remove('d-none');
-        
-        //Заголовок контейнера сообщений
-        parameters.titleMessage.innerText = parameters.titleMessage.dataset.text + contacts[parameters.fId].name;
-
-        //И производим рендер сообщений из объекта messages.
-	    for(let key in messages[parameters.fId]){
-            messageRender(parameters.fId, key);
+        if(us != parameters.fId){
+            //Определяем ID собеседника
+            parameters.fId = us;
+    
+            //Добавляем фон активному контакту
+            cl.forEach((element) => el.classList.add(element));
+           
+            //Удаляем фон у предыдущего активного контакта
+            cl.forEach((element) => { if(old) old.classList.remove(element) });
+            
+            //Делаем отчистку контейнера сообщений
+            parameters.containerMessage.innerHTML = '';
+            parameters.containerSender.classList.remove('d-none');
+            
+            //Заголовок контейнера сообщений
+            parameters.titleMessage.innerText = parameters.titleMessage.dataset.text + contacts[parameters.fId].name;
+    
+            //И производим рендер сообщений из объекта messages.
+    	    for(let key in messages[parameters.fId]){
+                messageRender(parameters.fId, key);
+            }
         }
     }
     
@@ -158,8 +168,9 @@
 
     		if(id == parameters.fId){
                 messageRender(id, data_obj.time);
-                //Скролл контейнера с сообщениями
-                parameters.containerMessage.scrollTop = parameters.containerMessage.scrollHeight;
+                //Скролл контейнера с сообщениями. Только при отправке своих сообщений.
+                //if(data_obj.uId == parameters.uId)
+                    parameters.containerMessage.scrollTo({top: parameters.containerMessage.scrollHeight, behavior: 'smooth'});
     		}
     		//Непрочитанные сообщения
             else if(parameters.uId != data_obj.uId){
@@ -299,7 +310,7 @@ console.log(contacts);
             time = dd + '.' + mm + '.' + yyyy;
             break;
           default:
-            time = dd + '.' + mm + '.' + yyyy + ', ' + h + ':' + min;
+            time = dd + '.' + mm + '.' + yyyy.toString().slice(2) + ' ' + h + ':' + min;
         }
     return time;
     }
@@ -310,7 +321,12 @@ console.log(contacts);
         load : function () {
             window.addEventListener('DOMContentLoaded', function () {
                 init();
+                resize();
             }, false);
+            
+            window.addEventListener('resize', function(event) {
+                resize();
+            }, true);
         }
     };
 })().load();

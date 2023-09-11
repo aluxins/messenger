@@ -18,11 +18,11 @@ return [
     'connections' => [
         'mysql' => array(
             'driver'      => 'mysql',
-            'host'        => empty($_ENV['DB_HOST'])?'127.0.0.1':$_ENV['DB_HOST'],
+            'host'        => empty($_ENV['DB_HOST'])?'localhost':$_ENV['DB_HOST'],
             'port'        => 3306,
-            'database'    => 'messenger',
+            'database'    => 'test',
             'username'    => 'root',
-            'password'    => 'root',
+            'password'    => 'generator',
             'unix_socket' => '',
             'charset'     => 'utf8',
             'collation'   => 'utf8_unicode_ci',

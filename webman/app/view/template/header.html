@@ -10,6 +10,23 @@
 <?if($controller=='app\controller\ChatController'){?>
         <script>var urlSocket = "<?=$ip?>";</script>
 	    <script src="template/socket.js" type="text/javascript" defer></script>
+        <style>
+            .cast-scroll::-webkit-scrollbar {
+            	width: 8px;
+            	background-color: #F5F5F5;
+            }
+            .cast-scroll::-webkit-scrollbar-track {
+            	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            	background-color: #F5F5F5;
+            	border-radius: 10px;
+            }
+            .cast-scroll::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+                background-color: #CCCCCC;
+        	    border: 1px solid #888888;
+            }
+        </style>
 <?}?>
     </head>
     <body class="bg-body-secondary">

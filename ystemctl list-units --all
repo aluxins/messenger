@@ -1,0 +1,115 @@
+  UNIT                       LOAD   ACTIVE SUB       DESCRIPTION
+  proc-sys-fs-binfmt_misc.automount loaded active waiting   Arbitrary Executable File F
+  sys-devices-pci0000:00-0000:00:07.1-ata2-host2-target2:0:0-2:0:0:0-block-sr0.device loaded active plugged   VMware_Virtual_IDE_CDROM_Dr
+  sys-devices-pci0000:00-0000:00:10.0-host0-target0:0:0-0:0:0:0-block-sda-sda1.device loaded active plugged   VMware_Virtual_S 1
+  sys-devices-pci0000:00-0000:00:10.0-host0-target0:0:0-0:0:0:0-block-sda-sda2.device loaded active plugged   VMware_Virtual_S 2
+  sys-devices-pci0000:00-0000:00:10.0-host0-target0:0:0-0:0:0:0-block-sda.device loaded active plugged   VMware_Virtual_S
+  sys-devices-pci0000:00-0000:00:11.0-0000:02:01.0-net-ens33.device loaded active plugged   82545EM Gigabit Ethernet Co
+  sys-devices-pci0000:00-0000:00:11.0-0000:02:02.0-sound-card0.device loaded active plugged   ES1371/ES1373 / Creative La
+  sys-devices-platform-serial8250-tty-ttyS1.device loaded active plugged   /sys/devices/platform/seria
+  sys-devices-platform-serial8250-tty-ttyS2.device loaded active plugged   /sys/devices/platform/seria
+  sys-devices-platform-serial8250-tty-ttyS3.device loaded active plugged   /sys/devices/platform/seria
+  sys-devices-pnp0-00:05-tty-ttyS0.device loaded active plugged   /sys/devices/pnp0/00:05/tty
+  sys-devices-virtual-block-dm\x2d0.device loaded active plugged   /sys/devices/virtual/block/
+  sys-devices-virtual-block-dm\x2d1.device loaded active plugged   /sys/devices/virtual/block/
+  sys-module-configfs.device loaded active plugged   /sys/module/configfs
+  sys-module-fuse.device     loaded active plugged   /sys/module/fuse
+  sys-subsystem-net-devices-ens33.device loaded active plugged   82545EM Gigabit Ethernet Co
+  -.mount                    loaded active mounted   /
+  boot.mount                 loaded active mounted   /boot
+  dev-hugepages.mount        loaded active mounted   Huge Pages File System
+  dev-mqueue.mount           loaded active mounted   POSIX Message Queue File Sy
+  run-user-0.mount           loaded active mounted   /run/user/0
+  sys-fs-fuse-connections.mount loaded active mounted   FUSE Control File System
+  sys-kernel-config.mount    loaded active mounted   Configuration File System
+  sys-kernel-debug.mount     loaded active mounted   Debug File System
+  systemd-ask-password-plymouth.path loaded active waiting   Forward Password Requests t
+  systemd-ask-password-wall.path loaded active waiting   Forward Password Requests t
+  session-1.scope            loaded active running   Session 1 of user root
+  session-4.scope            loaded active running   Session 4 of user root
+  auditd.service             loaded active running   Security Auditing Service
+  chronyd.service            loaded active running   NTP client/server
+  crond.service              loaded active running   Command Scheduler
+  dbus.service               loaded active running   D-Bus System Message Bus
+  firewalld.service          loaded active running   firewalld - dynamic firewal
+  getty@tty1.service         loaded active running   Getty on tty1
+  httpd.service              loaded active running   LSB: starts Apache Web Serv
+[1;31m●[0m [1;31mkdump.service             [0m loaded [1;31mfailed failed   [0m Crash recovery kernel armin
+  kmod-static-nodes.service  loaded active exited    Create list of required sta
+  lvm2-lvmetad.service       loaded active running   LVM2 metadata daemon
+  lvm2-monitor.service       loaded active exited    Monitoring of LVM2 mirrors,
+  lvm2-pvscan@8:2.service    loaded active exited    LVM2 PV scan on device 8:2
+  my-network.service         loaded active running   My-network-service
+  mysqld.service             loaded active running   LSB: start and stop MySQL
+[1;31m●[0m [1;31mnetwork.service           [0m loaded [1;31mfailed failed   [0m LSB: Bring up/down networki
+  NetworkManager-wait-online.service loaded active exited    Network Manager Wait Online
+  NetworkManager.service     loaded active running   Network Manager
+  polkit.service             loaded active running   Authorization Manager
+  postfix.service            loaded active running   Postfix Mail Transport Agen
+  redis.service              loaded active running   Redis persistent key-value 
+  rhel-dmesg.service         loaded active exited    Dump dmesg to /var/log/dmes
+  rhel-domainname.service    loaded active exited    Read and set NIS domainname
+  rhel-import-state.service  loaded active exited    Import network configuratio
+  rhel-readonly.service      loaded active exited    Configure read-only root su
+  rsyslog.service            loaded active running   System Logging Service
+  sshd.service               loaded active running   OpenSSH server daemon
+  systemd-journal-flush.service loaded active exited    Flush Journal to Persistent
+  systemd-journald.service   loaded active running   Journal Service
+  systemd-logind.service     loaded active running   Login Service
+  systemd-modules-load.service loaded active exited    Load Kernel Modules
+  systemd-random-seed.service loaded active exited    Load/Save Random Seed
+  systemd-remount-fs.service loaded active exited    Remount Root and Kernel Fil
+  systemd-sysctl.service     loaded active exited    Apply Kernel Variables
+  systemd-tmpfiles-setup-dev.service loaded active exited    Create Static Device Nodes 
+  systemd-tmpfiles-setup.service loaded active exited    Create Volatile Files and D
+  systemd-udev-trigger.service loaded active exited    udev Coldplug all Devices
+  systemd-udevd.service      loaded active running   udev Kernel Device Manager
+  systemd-update-utmp.service loaded active exited    Update UTMP about System Bo
+  systemd-user-sessions.service loaded active exited    Permit User Sessions
+  systemd-vconsole-setup.service loaded active exited    Setup Virtual Console
+  tuned.service              loaded active running   Dynamic System Tuning Daemo
+  vgauthd.service            loaded active running   VGAuth Service for open-vm-
+  vmtoolsd.service           loaded active running   Service for virtual machine
+  vsftpd.service             loaded active running   Vsftpd ftp daemon
+  -.slice                    loaded active active    Root Slice
+  system-getty.slice         loaded active active    system-getty.slice
+  system-lvm2\x2dpvscan.slice loaded active active    system-lvm2\x2dpvscan.slice
+  system-selinux\x2dpolicy\x2dmigrate\x2dlocal\x2dchanges.slice loaded active active    system-selinux\x2dpolicy\x2
+  system.slice               loaded active active    System Slice
+  user-0.slice               loaded active active    User Slice of root
+  user.slice                 loaded active active    User and Session Slice
+  dbus.socket                loaded active running   D-Bus System Message Bus So
+  dm-event.socket            loaded active listening Device-mapper event daemon 
+  lvm2-lvmetad.socket        loaded active running   LVM2 metadata daemon socket
+  lvm2-lvmpolld.socket       loaded active listening LVM2 poll daemon socket
+  systemd-initctl.socket     loaded active listening /dev/initctl Compatibility 
+  systemd-journald.socket    loaded active running   Journal Socket
+  systemd-shutdownd.socket   loaded active listening Delayed Shutdown Socket
+  systemd-udevd-control.socket loaded active running   udev Control Socket
+  systemd-udevd-kernel.socket loaded active running   udev Kernel Socket
+  dev-mapper-centos\x2dswap.swap loaded active active    /dev/mapper/centos-swap
+  basic.target               loaded active active    Basic System
+  cryptsetup.target          loaded active active    Local Encrypted Volumes
+  getty.target               loaded active active    Login Prompts
+  local-fs-pre.target        loaded active active    Local File Systems (Pre)
+  local-fs.target            loaded active active    Local File Systems
+  multi-user.target          loaded active active    Multi-User System
+  network-online.target      loaded active active    Network is Online
+  network-pre.target         loaded active active    Network (Pre)
+  network.target             loaded active active    Network
+  paths.target               loaded active active    Paths
+  remote-fs.target           loaded active active    Remote File Systems
+  slices.target              loaded active active    Slices
+  sockets.target             loaded active active    Sockets
+  sound.target               loaded active active    Sound Card
+  swap.target                loaded active active    Swap
+  sysinit.target             loaded active active    System Initialization
+  timers.target              loaded active active    Timers
+  systemd-tmpfiles-clean.timer loaded active waiting   Daily Cleanup of Temporary 
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+
+[1;39m107 loaded units listed.[0m Pass --all to see loaded but inactive units, too.
+To show all installed unit files use 'systemctl list-unit-files'.
