@@ -6,15 +6,22 @@ use support\Request;
 
 class IndexController
 {
+    private static 
+        $parametersView = [
+        'title' => [
+            'index' => 'Демоверсия мессенджера'
+            ]
+        ];
+        
     public function index(Request $request)
     {
         $host = explode(":", $request->header()['host']);
-        return view('index/view', ['name' => 'webman', 'ip' => $host[0].":40991"]);
+        return view('index/view', ['title' => self::$parametersView['title']['index']]);
     }
 
     public function view(Request $request)
     {
-        return view('index/view', ['name' => 'webman']);
+        return view('index/view', ['title' => self::$parametersView['title']['index']]);
     }
 
     public function json(Request $request)

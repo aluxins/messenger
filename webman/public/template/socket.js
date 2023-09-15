@@ -12,19 +12,19 @@
 
     const parameters = {
         
+        //Контейнер мессенджера
         'containerMessenger' :   document.getElementById('container-messenger'),
         
         //Контейнер контактов и шаблон контакта
 	    'containerContacts' :   document.getElementById('container-contacts'),
 		'caseContact'       :   document.getElementById('case-contact'),
 		    
-	    //Контейнер сообщений и шаблон сообщений
+	    //Контейнер сообщений и шаблоны сообщений
+	    'containerMessage'  :   document.getElementById("container-messages"),
 	    'caseMessageFrom'   :   document.getElementById('case-message-from'),
 	    'caseMessageI'      :   document.getElementById('case-message-i'),
-		
-	    //Контейнер окна сообщений    
-	    'containerMessage'  :   document.getElementById("container-messages"),
-	
+	    'caseMessageDefault':   document.getElementById('case-message-default'),
+
 	    //Поле сообщения
 	    'msgInput'          :   document.getElementById("sock-msg"),
 	    
@@ -88,6 +88,7 @@
 			} 
 		});
         
+        parameters.containerMessage.innerHTML = parameters.caseMessageDefault.innerHTML;
     };
 
     //Переключение между контактами
@@ -100,7 +101,13 @@
         if(us != parameters.fId){
             //Определяем ID собеседника
             parameters.fId = us;
-    
+            
+            //Запрос архива сообщений
+            if(!contacts[parameters.fId].archive){
+                archiveGet(parameters.fId);
+                contacts[parameters.fId].archive = true;
+            }
+
             //Добавляем фон активному контакту
             cl.forEach((element) => el.classList.add(element));
            
@@ -116,7 +123,7 @@
     
             //И производим рендер сообщений из объекта messages.
     	    for(let key in messages[parameters.fId]){
-                messageRender(parameters.fId, key);
+                messageRender(parameters.fId, key, false, 'auto');
             }
         }
     }
@@ -130,7 +137,7 @@
                     el.src = 'upload/'+text;
                     break;
                 default:
-                    el.textContent = text;
+                    el.innerText = text;
             }
 	    }
 	}
@@ -140,6 +147,11 @@
         var node = document.getElementById(id);
         if (node && node.parentNode)
             node.parentNode.removeChild(node);
+	}
+
+    //Запрос архива сообщений
+	function archiveGet(id) {
+        socket.send(jsonMessage(id, '0', 'archive'));
 	}
 		
     //Отправка сообщения пользователем
@@ -156,47 +168,102 @@
     //Обрабатываем системные сообщения
     function messageAdd(data){
         let data_obj = JSON.parse(data);
+        //Устанавливаем ID пользователя
         if(parameters.uId == 0)
             parameters.uId = data_obj.uId;
-        //Сообщения от пользователей
-        if(data_obj.fId != 0){
-            var id = data_obj.uId == parameters.uId ? data_obj.fId : data_obj.uId;
-            if (!(id in messages)) messages[id] = {};
-    		messages[id][data_obj.time] = data_obj;
-    		divSet('case-contact-lastmess-'+id, data_obj.msg);
-    		divSet('case-contact-status-'+id, convertTimestamp(data_obj.time,'time'));
 
-    		if(id == parameters.fId){
-                messageRender(id, data_obj.time);
-                //Скролл контейнера с сообщениями. Только при отправке своих сообщений.
-                //if(data_obj.uId == parameters.uId)
-                    parameters.containerMessage.scrollTo({top: parameters.containerMessage.scrollHeight, behavior: 'smooth'});
-    		}
-    		//Непрочитанные сообщения
-            else if(parameters.uId != data_obj.uId){
-                let numb = document.getElementById('case-contact-unreadmess-'+id).innerText == '' ? 
-                    0 : Number(document.getElementById('case-contact-unreadmess-'+id).innerText);
-                divSet('case-contact-unreadmess-'+id, numb + 1);
+        switch (data_obj.type) {
+            
+            //Новые сообщения
+            case 'msg':
+                var id = data_obj.uId == parameters.uId ? data_obj.fId : data_obj.uId;
                 
-                let bold = document.getElementById('case-contact-lastmess-'+id);
-                if(!bold.classList.contains('fw-bold'))
-                    bold.classList.add('fw-bold');
-            }
-console.log(messages);
-        }
-        //Системные сообщения
-        else{
-            if ('contacts' in data_obj.msg){
+                if (!(id in messages)) messages[id] = {};
+        		messages[id][data_obj.time] = data_obj;
+        		divSet('case-contact-lastmess-'+id, data_obj.msg);
+        		divSet('case-contact-status-'+id, convertTimestamp(data_obj.time,'time'));
+    
+        		if(id == parameters.fId)
+                    messageRender(id, data_obj.time);
+
+        		//Новые сообщения
+                else if(parameters.uId != data_obj.uId){
+                    let numb = document.getElementById('case-contact-unreadmess-'+id).innerText == '' ? 
+                        0 : Number(document.getElementById('case-contact-unreadmess-'+id).innerText);
+                    divSet('case-contact-unreadmess-'+id, numb + 1);
+                    
+                    let bold = document.getElementById('case-contact-lastmess-'+id);
+                    if(!bold.classList.contains('fw-bold'))
+                        bold.classList.add('fw-bold');
+                }
+                break;
+        
+            //Список контактов
+            case 'contacts':
                 contactsRender(data_obj.msg.contacts);
-            }
-            else if('delete' in data_obj.msg){
+                break;
+                
+            //Удаление контакта
+            case 'delete':
                 if(data_obj.msg['delete'] in contacts)
                     delete contacts[data_obj.msg['delete']];
+                if(data_obj.msg['delete'] == parameters.fId){
+                    //Делаем обнуление диалога
+                    parameters.fId = 0;
+                    parameters.containerMessage.innerHTML = parameters.caseMessageDefault.innerHTML;
+                    parameters.titleMessage.innerText = '';
+                    parameters.containerSender.classList.add('d-none');
+                }
                 divRemove('case-contact-'+data_obj.msg['delete']);
-            }
+                break;
+                
+            //Архив сообщений
+            case 'archive':
+                if (!(data_obj.fId in messages)) messages[data_obj.fId] = {};
+        		
+                for(let key in data_obj.msg.archive){
+                    if(!messages[data_obj.fId][data_obj.msg.archive[key].time]){
+                        messages[data_obj.fId][data_obj.msg.archive[key].time] = data_obj.msg.archive[key];
+                        if(data_obj.fId == parameters.fId)
+                            messageRender(data_obj.fId, data_obj.msg.archive[key].time, true, 'auto');
+                    }
+                }
+                
+                //Сортировка массива сообщений в хронологической последовательности
+                messages[data_obj.fId] = sortObject(messages[data_obj.fId]);
+                break;
         }
 	}
+	
+	//Рендер сообщений в чат
+	function messageRender(id, time, reverse = false, behavior = 'smooth'){
+	    if(id > 0){
+	        let case_message = messages[id][time].uId == parameters.uId ? parameters.caseMessageI : parameters.caseMessageFrom;
+	        if(reverse)
+	            parameters.containerMessage.innerHTML = case_message.innerHTML.replaceAll('%ID%', id+'-'+time) 
+	                + parameters.containerMessage.innerHTML;
+	        else
+    		    parameters.containerMessage.innerHTML += case_message.innerHTML.replaceAll('%ID%', id+'-'+time);
+    		    
+    		for(let key in messages[id][time]) {
+    		    let div_value = messages[id][time][key];
+    		    if(key == 'time')
+    		        div_value = convertTimestamp(div_value, '');
+    	        divSet('case-message-'+key+'-'+id+'-'+time, div_value);   
+    	    }
 
+    	    divSet('case-message-name-'+id+'-'+time, contacts[messages[id][time].uId].name);   
+            divSet('case-message-avatar-'+id+'-'+time, contacts[messages[id][time].uId].avatar);  
+            divSet('case-contact-unreadmess-'+id, '');
+            let bold = document.getElementById('case-contact-lastmess-'+id);
+            if(bold && bold.classList.contains('fw-bold'))
+                bold.classList.remove('fw-bold');
+            
+            //Скролл контейнера с сообщениями. При добавлении архивных сообщений behavior = auto, при новых сообщениях behavior = smooth
+            parameters.containerMessage.scrollTo({top: parameters.containerMessage.scrollHeight, behavior: behavior});
+	    }
+	}
+	
     //Рендер контактов
     function contactsRender(data_contacts){
 		for(let key in data_contacts) {
@@ -204,11 +271,12 @@ console.log(messages);
     		   contacts[key] = data_contacts[key];
     		    if(key != parameters.uId){
         		    parameters.containerContacts.innerHTML += parameters.caseContact.innerHTML.replaceAll('%ID%', key);
+        		    data_contacts[key].archive = false;
         		    for(let key_c in data_contacts[key]){
         		        let div_value = data_contacts[key][key_c];
         		        if(key_c == 'status')
         		            div_value = convertTimestamp(div_value, '');
-        		        divSet('case-contact-'+key_c+'-'+key, div_value);  
+        		        divSet('case-contact-'+key_c+'-'+key, div_value);
         		    }
         		}
         		else{
@@ -219,31 +287,11 @@ console.log(messages);
 		}
     }
 	
-	//Рендер сообщений в чат
-	function messageRender(id, time){
-	    if(id > 0){
-	        let case_message = messages[id][time].uId == parameters.uId ? parameters.caseMessageI : parameters.caseMessageFrom;
-    		parameters.containerMessage.innerHTML += case_message.innerHTML.replaceAll('%ID%', id+'-'+time);
-    		for(let key in messages[id][time]) {
-    		    let div_value = messages[id][time][key];
-    		    if(key == 'time')
-    		        div_value = convertTimestamp(div_value, '');
-    	        divSet('case-message-'+key+'-'+id+'-'+time, div_value);   
-    	    }
-console.log(contacts);
-    	    divSet('case-message-name-'+id+'-'+time, contacts[messages[id][time].uId].name);   
-            divSet('case-message-avatar-'+id+'-'+time, contacts[messages[id][time].uId].avatar);  
-            divSet('case-contact-unreadmess-'+id, '');
-            let bold = document.getElementById('case-contact-lastmess-'+id);
-            if(bold && bold.classList.contains('fw-bold'))
-                bold.classList.remove('fw-bold');
-	    }
-	}
-	
 	//Формирование строки в представлении json для отправки на сервер
-	function jsonMessage(fId, msg) {
+	function jsonMessage(fId, msg, type = 'msg') {
 		const data = {
 			msg: msg ? msg : parameters.msgInput.value,
+			type: type,
 			fId: fId
 		};
 		return JSON.stringify(data);
@@ -261,7 +309,7 @@ console.log(contacts);
     
     //Функция вызывается при открытии соединения с сервером
 	function connectionOpen() {
-        socket.send(jsonMessage(0, "start"));
+        socket.send(jsonMessage(0, '0', 'start'));
         parameters.statusAlert.textContent = 'Соединение установлено: ' +
             convertTimestamp(Date.now() / 1000, '');
 	}
@@ -274,7 +322,7 @@ console.log(contacts);
 	
     //Функция вызывается в случае ошибки
 	function errorOccurred() {
-        parameters.statusAlert.textContent = 'Ошибка веб-сокета!: ' +
+        parameters.statusAlert.textContent = '<span class="text-danger">Ошибка веб-сокета!:</span> ' +
             convertTimestamp(Date.now() / 1000, '');
         console.log('Ошибка веб-сокета!');
 	}
@@ -288,8 +336,16 @@ console.log(contacts);
         parameters.containerMessage.innerHTML = '';
         parameters.titleMessage.innerHTML = '';
         parameters.containerSender.classList.add('d-none');
-        parameters.statusAlert.textContent = 'Соединение разорвано: ' +
+        parameters.statusAlert.innerHTML = '<span class="text-danger">Соединение разорвано:</span> ' +
             convertTimestamp(Date.now() / 1000, '');
+    }
+    
+    //Сортировка
+    function sortObject(obj) {
+        return Object.keys(obj).sort().reduce(function (result, key) {
+            result[key] = obj[key];
+            return result;
+        }, {});
     }
     
     //Конвертация unixtime

@@ -29,10 +29,10 @@ class Users extends Model
      */
     public $timestamps = true;
     
-    public function add($name)
+    /*public function add($name)
     {
         return $this->insert(['name' => $name]);
-    }
+    }*/
     
     public static function authentication($nick, $password){
         $user = self::where('nick', $nick)->first();

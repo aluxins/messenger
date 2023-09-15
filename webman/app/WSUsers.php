@@ -2,14 +2,16 @@
 namespace app\MyProject;
 //use support\Db;
 use app\model\Users;
+use app\model\Messages;
 use Respect\Validation\Validator as v;
 use Respect\Validation\Exceptions\ValidationException;
 use support\Log;
+use \DateTime;
 
 class WSUsers{
     private static  $array_user = [],// { id_user = { connection1, connection2, ... } }
                     $array_id = [], // { Sec_WebSocket_Key = id_user }
-                    $array_users_info = []; /*{ 'name' => , 'avatar' => , 'lastmess' => , 'unreadmess' => , 'status' => , };*/
+                    $array_users_info = []; /* id_user => { 'name' => , 'avatar' => , 'lastmess' => , 'unreadmess' => , 'status' => , } */
                    
     //Добавляем пользователей в массив $array_id
     public static function AddId($connection){
@@ -33,7 +35,7 @@ class WSUsers{
         
         //Рассылаем новый контакт
         self::MessageSys('contacts', [$id_user => self::$array_users_info[$id_user]]);
-        
+        /*
         //Рассылаем контакт echo-bot
         if(config('app.echo_bot_id'))
             $connection->send(self::JsonEncode($id_user, ['contacts' => [config('app.echo_bot_id') => [
@@ -43,7 +45,7 @@ class WSUsers{
                     'unreadmess' => '', 
                     'status' => microtime(true),
                 ]
-            ]], 0, microtime(true)));  
+            ]], 0, microtime(true), 'contacts'));  */
     }
   
     //Удаляем пользователя из всех массивов
@@ -77,62 +79,96 @@ class WSUsers{
     public static function Message($data, $connection){
         $data_obj = json_decode($data, true);
         if(!empty($connection->session) and !empty($data_obj)){
-            $unix_time = microtime(true);
+
+            $date_time = new DateTime();
             $id_user = $connection->session->get('id_user');
-            
+
             try { //Проверка валидности данных
                 $data_obj = v::input($data_obj, [
                     'fId' => v::digit(),
-                    'msg' => v::length(1, config('app.max_char_msg', 100))
+                    'msg' => v::length(1, config('app.max_char_msg', 100)),
+                    'type' => v::length(1, 10)->containsAny(['archive', 'msg', 'start'])
                 ]);
     
                 $data_obj["fId"] = (int) ($data_obj["fId"] == '') ? 0 : $data_obj["fId"];
                 
-                //Сообщения пользователям
-                if($data_obj["fId"] != 0){
+                switch ($data_obj["type"]) {
                     
-                    $msg = self::JsonEncode($id_user, $data_obj["msg"], $data_obj["fId"], $unix_time);
-                    
-                    //Свое сообщение
-                    if(array_key_exists($id_user, self::$array_user)){
-                        foreach (self::$array_user[$id_user] as $cocketConnection)
-                            $cocketConnection->send($msg);
-                    }
+                    //Сообщения пользователям
+                    case "msg":    
+                        if($data_obj["fId"] != 0){
+                            
+                            $msg = self::JsonEncode($id_user, $data_obj["msg"], $data_obj["fId"], $date_time->format('U.u'), 'msg');
+        
+                            //Свое сообщение
+                            if(array_key_exists($id_user, self::$array_user)){
+                                foreach (self::$array_user[$id_user] as $cocketConnection)
+                                    $cocketConnection->send($msg);
+                            }
+        
+                            //Сообщение собеседнику
+                            if(array_key_exists($data_obj["fId"], self::$array_user)){
+                                foreach (self::$array_user[$data_obj["fId"]] as $cocketConnection)
+                                    $cocketConnection->send($msg);
+                            }
+                            
+                            //Сообщение от echo-bot
+                            if(config('app.echo_bot_id') and config('app.echo_bot_id') == $data_obj["fId"])
+                                $cocketConnection->send(
+                                        self::JsonEncode(config(
+                                            'app.echo_bot_id'), 
+                                            "Тест ОК \n" . $date_time->format("Y-m-d H:i:s") . " \n" . 
+                                                strlen($data_obj["msg"]) . " - " . $hash = hash( 'crc32', $data_obj["msg"]), 
+                                            $data_obj["fId"], $date_time->format('U.u').'0', 'msg'
+                                    )
+                            );
+                            //Добавляем сообщения в БД, кроме сообщений echo-bot
+                            else
+                                Messages::insert([
+                                    'uid' => $id_user, 
+                                    'fid' => $data_obj["fId"],
+                                    'message' => $data_obj["msg"],
+                                    'microtime' => $date_time->format("Y-m-d H:i:s.u")
+                                ]);
+                        }
+                        break;
 
-                    //Сообщение собеседнику
-                    if(array_key_exists($data_obj["fId"], self::$array_user)){
-                        foreach (self::$array_user[$data_obj["fId"]] as $cocketConnection)
-                            $cocketConnection->send($msg);
-                    }
-                    
-                    //Сообшение от echo-bot
-                    if(config('app.echo_bot_id') and config('app.echo_bot_id') == $data_obj["fId"])
-                        $cocketConnection->send(
-                                self::JsonEncode(config(
-                                    'app.echo_bot_id'), 
-                                    'Тест ОК - ' . date('l jS \of F Y H:i:s') . ' - ' . strlen($data_obj["msg"]) . 
-                                        ' - ' . $hash = hash( 'crc32', $data_obj["msg"]), 
-                                    $data_obj["fId"], $unix_time.'0'
-                                )
-                        );
-                }
-                
-                //Системные сообщения
-                else{
-                    switch ($data_obj["msg"]) {
                         //Список контактов
                         case "start":
-                            $connection->send(self::JsonEncode($id_user, ['contacts' => self::$array_users_info], 0, $unix_time));
+                            //Добавляем контакт echo-bot
+                            if(config('app.echo_bot_id'))
+                                self::$array_users_info[config('app.echo_bot_id')] = [
+                                        'name' => 'Echo-Bot', 
+                                        'avatar' => 'avatar-bot.webp', 
+                                        'lastmess' => '', 
+                                        'unreadmess' => '', 
+                                        'status' => microtime(true),
+                                ];
+                            
+                            $connection->send(self::JsonEncode($id_user, ['contacts' => self::$array_users_info], 0, $date_time->format('U.u'), 'contacts'));
                             break;
-                        case "status":
-                            //
+                        //Архив сообщений
+                        case "archive":
+                            $archive_obj = Messages::selectRaw('uid as uId, message as msg, fid as fId, UNIX_TIMESTAMP(microtime) as time')->where([
+                                    ['uid', '=', $id_user],
+                                    ['fid', '=', $data_obj["fId"]],
+                                ])->orWhere([
+                                    ['uid', '=', $data_obj["fId"]],
+                                    ['fid', '=', $id_user],
+                                ])->orderBy('microtime', 'desc')->limit(10)->get();
+                            
+                            $messages = [];
+                            foreach ($archive_obj as $id => $message) {
+                                $messages[] = $message;
+                            }
+                            //sleep(2);
+                            $connection->send(self::JsonEncode($id_user,  ['archive' => $messages], $data_obj["fId"], $date_time->format('U.u'), 'archive'));
                             break;
                         default:
                            //
                     }
-                }
             } catch (ValidationException $e) { //Если данные не валидны
-                $connection->send(self::JsonEncode($id_user, ['error' => 'not valid'], 0, $unix_time));
+                $connection->send(self::JsonEncode($id_user, ['error' => 'not valid: ' . $data], 0, $date_time->format('U.u'), 'error'));
             }
         }
     }
@@ -141,16 +177,17 @@ class WSUsers{
     public static function MessageSys($type, $data){
         foreach(self::$array_user as $user => $allConnection)
             foreach($allConnection as $cocketConnection)
-            $cocketConnection->send(self::JsonEncode($user, [$type => $data], 0, microtime(true)));       
+            $cocketConnection->send(self::JsonEncode($user, [$type => $data], 0, microtime(true), $type));       
     }
     
     //Упаковка сообщения в Json
-    private static function JsonEncode($id, $msg, $fId, $time){
+    private static function JsonEncode($id, $msg, $fId, $time, $type = 'msg'){
         $data = [
             "uId" => (int) $id,
             "msg" => $msg,
             "fId" => (int) $fId,
             "time" => $time,
+            "type" => $type,
         ];
         return json_encode($data);
     }

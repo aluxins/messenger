@@ -9,13 +9,13 @@ class ChatController
     private static 
         $parametersView = [
         'title' => [
-            'index' => 'Чат'
+            'index' => 'Мессенджер'
             ]
         ];
         
     public function index(Request $request)
     {
-        $title = [
+        $expression = [
             "Будь собой",
             "Птица мечты",
             "Подняться выше",
@@ -29,19 +29,17 @@ class ChatController
             "Попробуйте еще раз",
         ];
         $host = explode(":", $request->header()['host']);
-        $session = $request->session();
 
         return view('chat/view', [
-            'id_user' => $session->get('id_user'), 
-            'ip' => $host[0].":40991", 
-            'title' => $title[rand(0, count($title)-1)],
-            'maxChar' => config('app.max_char_msg', 100)
+            'expression' => $expression[rand(0, count($expression)-1)],
+            'maxChar' => config('app.max_char_msg', 100),
+            'title' => self::$parametersView['title']['index']
             ]);
     }
 
     public function view(Request $request)
     {
-        //return view('view', ['name' => 'webman']);
+
     }
 
     public function json(Request $request)

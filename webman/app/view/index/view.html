@@ -1,7 +1,25 @@
 <?=$header?>
-<section>
-    <a href="/user/login">Войти</a>
-    /
-    <a href="/user/register">Регистрация</a>
+    <div>
+		<div class="position-absolute top-0 start-0 bottom-0 end-0" style="background: url(template/image-fon.jpg) round"></div>
+		<div class="position-absolute top-0 start-0 bottom-0 end-0 bg-dark opacity-50"></div>
+	</div>
+<section class="position-relative min-vh-100 d-flex">
+	<div class="container align-self-center text-white">
+		<div class="row">
+			<div class="col-lg-10 mx-lg-auto text-center">
+				<h1 class="text-white mb-3"><?=$title?></h1>
+				<p class="lead text-white mb-5">
+				    Это демонстрационная версия мессенджера, реализованного на PHP-фреймворке 
+				    <a class="link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" 
+				        href="https://www.workerman.net/webman" target="_blank">Webman</a> 
+				    с использованием библиотеки веб-сокетов 
+				    <a class="link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" 
+				        href="https://www.workerman.net/doc/workerman/" target="_blank">Workerman</a>
+				</p>
+				<a href="/user/login" class="btn btn-light ms-1">Войти</a>
+				<a href="/user/register" class="btn btn-primary ms-1">Регистрация</a>
+			</div>
+		</div>
+	</div>
 </section>
 <?=$footer?>
