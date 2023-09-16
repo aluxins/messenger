@@ -32,20 +32,9 @@ class WSUsers{
 
         //Добавляем пользователя с его WebSocket_Key
         self::$array_id[$Sec_WebSocket_Key] = $id_user;
-        
+
         //Рассылаем новый контакт
         self::MessageSys('contacts', [$id_user => self::$array_users_info[$id_user]]);
-        /*
-        //Рассылаем контакт echo-bot
-        if(config('app.echo_bot_id'))
-            $connection->send(self::JsonEncode($id_user, ['contacts' => [config('app.echo_bot_id') => [
-                    'name' => 'Echo-Bot', 
-                    'avatar' => 'avatar-bot.webp', 
-                    'lastmess' => '', 
-                    'unreadmess' => '', 
-                    'status' => microtime(true),
-                ]
-            ]], 0, microtime(true), 'contacts'));  */
     }
   
     //Удаляем пользователя из всех массивов

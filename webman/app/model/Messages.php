@@ -14,6 +14,13 @@ class Messages extends Model
     protected $table = 'messages';
 
     /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
