@@ -40,6 +40,9 @@ services:
       - ./webman:/app
     environment:
       DB_HOST: mysql
+      DB_DATABASE: messenger
+      DB_USERNAME: root
+      DB_PASSWORD: root
     depends_on:
       - mysql
 
