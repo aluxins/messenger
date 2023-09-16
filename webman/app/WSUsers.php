@@ -1,6 +1,6 @@
 <?php
-namespace app\MyProject;
-//use support\Db;
+namespace app;
+
 use app\model\Users;
 use app\model\Messages;
 use Respect\Validation\Validator as v;

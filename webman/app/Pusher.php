@@ -3,10 +3,8 @@ namespace app;
 
 require 'WSUsers.php';
 
-use Workerman\Worker;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Session;
-use app\MyProject\WSUsers;
 
 
 class Pusher
