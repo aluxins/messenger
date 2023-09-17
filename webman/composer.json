@@ -36,7 +36,8 @@
     "webman/captcha": "^1.0",
     "workerman/crontab": "^1.0",
     "teamones/casbin": "^0.0.1",
-    "workerman/validation": "^3.0"
+    "workerman/validation": "^3.0",
+    "ext-json": "*"
   },
   "suggest": {
     "ext-event": "For better performance. "
@@ -45,8 +46,7 @@
     "psr-4": {
       "": "./",
       "app\\": "./app",
-      "App\\": "./app",
-      "app\\View\\Components\\": "./app/view/components"
+      "App\\": "./app"
     },
     "files": [
       "./support/helpers.php"
