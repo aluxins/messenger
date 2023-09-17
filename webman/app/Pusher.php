@@ -9,7 +9,11 @@ use Workerman\Protocols\Http\Session;
 
 class Pusher
 {
-    public function onConnect(TcpConnection $connection)
+    /**
+     * @param TcpConnection $connection
+     * @return void
+     */
+    public function onConnect(TcpConnection $connection): void
     {
 	    //Передаем в массив $array_id ключ Sec_WebSocket_Key и идентификатор пользователя при удачном подлючении клиента к Веб-сокету
     	$connection->onWebSocketConnect = function($connection){
@@ -24,17 +28,31 @@ class Pusher
         
     }
 
-    public function onWebSocketConnect(TcpConnection $connection, $http_buffer)
+    /**
+     * @param TcpConnection $connection
+     * @param $http_buffer
+     * @return void
+     */
+    public function onWebSocketConnect(TcpConnection $connection, $http_buffer): void
     {
         //echo "onWebSocketConnect\n" . $http_buffer;
     }
 
-    public function onMessage(TcpConnection $connection, $data)
+    /**
+     * @param TcpConnection $connection
+     * @param $data
+     * @return void
+     */
+    public function onMessage(TcpConnection $connection, $data): void
     {
 	    WSUsers::Message($data, $connection);
     }
 
-    public function onClose(TcpConnection $connection)
+    /**
+     * @param TcpConnection $connection
+     * @return void
+     */
+    public function onClose(TcpConnection $connection): void
     {
         if(!empty($connection->Sec_WebSocket_Key))
             WSUsers::UnsetUser($connection->Sec_WebSocket_Key);

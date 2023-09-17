@@ -24,10 +24,15 @@ use Webman\Http\Request;
  */
 class StaticFile implements MiddlewareInterface
 {
+    /**
+     * @param Request $request
+     * @param callable $next
+     * @return Response
+     */
     public function process(Request $request, callable $next): Response
     {
         // Access to files beginning with. Is prohibited
-        if (strpos($request->path(), '/.') !== false) {
+        if (str_contains($request->path(), '/.') !== false){
             return response('<h1>403 forbidden!</h1>', 403);
         }
         /** @var Response $response */

@@ -22,7 +22,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.1
     ports:
-      - 8080:80
+      - "8080:80"
     environment:
       PMA_HOST: mysql
     depends_on:
@@ -31,10 +31,9 @@ services:
   # PHP Service
   php:
     build: ./.docker/php
-    #image: myserver2-php:latest
     ports:
-      - 80:40990
-      - 40991:40991
+      - "80:40990"
+      - "40991:40991"
     working_dir: /app
     volumes:
       - ./webman:/app

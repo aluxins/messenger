@@ -3,17 +3,25 @@
 namespace app\controller;
 
 use support\Request;
+use support\Response;
 
 class ChatController
 {
-    private static 
+    /**
+     * @var array|array[]
+     */
+    private static array
         $parametersView = [
         'title' => [
             'index' => 'Мессенджер'
             ]
         ];
-        
-    public function index(Request $request)
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function index(Request $request): Response
     {
         $expression = [
             "Будь собой",
@@ -28,7 +36,6 @@ class ChatController
             "Двигаться вперед",
             "Попробуйте еще раз",
         ];
-        $host = explode(":", $request->header()['host']);
 
         return view('chat/view', [
             'expression' => $expression[rand(0, count($expression)-1)],
@@ -37,12 +44,20 @@ class ChatController
             ]);
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     */
     public function view(Request $request)
     {
 
     }
 
-    public function json(Request $request)
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function json(Request $request): Response
     {
         return json(['code' => 0, 'msg' => 'ok']);
     }

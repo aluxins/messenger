@@ -41,15 +41,25 @@ class Users extends Model
         }
         return false;
     }
-    
-    public static function nickCheck($nick){
+
+    /**
+     * @param $nick
+     * @return bool
+     */
+    public static function nickCheck($nick): bool
+    {
         if(self::where('nick', $nick)->count() > 0)
             return true;
         else 
             return false;
     }
-    
-    public static function userRegister($data){
+
+    /**
+     * @param $data
+     * @return int
+     */
+    public static function userRegister($data): int
+    {
         return self::insertGetId([
             'name' => $data['registerName'], 
             'nick' => $data['registerUsername'],

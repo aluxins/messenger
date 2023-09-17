@@ -10,6 +10,12 @@ use support\View;
 class WrapView implements MiddlewareInterface
 {
     //Добавляем header и footer к страницам сайта.
+    /**
+     * @param Request $request
+     * @param callable $handler
+     * @return Response
+     * @throws \ReflectionException
+     */
     public function process(Request $request, callable $handler): Response
     {
         $host = explode(":", $request->header()['host']);
