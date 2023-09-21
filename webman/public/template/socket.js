@@ -302,7 +302,7 @@
     //Функция, выполняющая соединение с веб-сокетом
     function newConnection(){
         //Открываем веб-сокет и привязываем к событиям функции
-        socket = new WebSocket('ws://' + parameters.urlSocket);
+        socket = new WebSocket(parameters.urlSocket);
 		socket.onopen = connectionOpen; 
 		socket.onmessage = messageReceived; 
 		socket.onerror = errorOccurred; 

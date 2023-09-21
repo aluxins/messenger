@@ -1,28 +1,26 @@
-version: '3.8'
+version: '3.3'
 
 # Services
 services:
 
-  # Nginx Service
-
-
   # MySQL Service
   mysql:
-    #image: mariadb:latest
-    image: mysql:8.1
+    image: mariadb:11
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: "%"
       MYSQL_DATABASE: messenger
+    restart: always
     volumes:
       - ./.docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-      - mysqldata:/var/lib/mysql
+      - mariadbdata:/var/lib/mysql
 
   # PhpMyAdmin Service
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.1
     ports:
       - "8080:80"
+    restart: always
     environment:
       PMA_HOST: mysql
     depends_on:
@@ -42,10 +40,11 @@ services:
       DB_DATABASE: messenger
       DB_USERNAME: root
       DB_PASSWORD: root
+    restart: always
     depends_on:
       - mysql
 
 # Volumes
 volumes:
 
-  mysqldata:
+  mariadbdata:

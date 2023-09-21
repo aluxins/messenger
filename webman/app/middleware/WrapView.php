@@ -19,7 +19,8 @@ class WrapView implements MiddlewareInterface
     public function process(Request $request, callable $handler): Response
     {
         $host = explode(":", $request->header()['host']);
-        $header = view('template/header', ['ip' => $host[0].":40991", 'controller' => $request->controller])->rawBody();
+        $header = view('template/header', ['ip' => config('app.websocket_protocol')."://".$host[0].":40991",
+            'controller' => $request->controller])->rawBody();
         $footer = view('template/footer')->rawBody();
         
         //Считываем параметры в свойстве контроллера parametersView, которые необходимо вставить в шаблон.

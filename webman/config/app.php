@@ -17,12 +17,13 @@ use support\Request;
 return [
     'debug' => true,
     'error_reporting' => E_ALL,
-    'default_timezone' => 'Asia/Shanghai',
+    'default_timezone' => 'UTC',
     'request_class' => Request::class,
     'public_path' => base_path() . DIRECTORY_SEPARATOR . 'public',
     'runtime_path' => base_path(false) . DIRECTORY_SEPARATOR . 'runtime',
     'controller_suffix' => 'Controller',
     'controller_reuse' => false,
-    'max_char_msg' => 500,
+    'max_char_msg' => 1000,
     'echo_bot_id' => 1, //false или ID бота
+    'websocket_protocol' => 'ws', //ws, wss
 ];
