@@ -27,14 +27,15 @@ export EXTENSIONS=",gd,bcmath,pdo,mysqli,pdo_mysql,redis,bz2,calendar,opcache,pc
 #
 isPhpVersionGreaterOrEqual()
  {
-    local PHP_MAJOR_VERSION=$(php -r "echo PHP_MAJOR_VERSION;")
-    local PHP_MINOR_VERSION=$(php -r "echo PHP_MINOR_VERSION;")
+    #local PHP_MAJOR_VERSION=$(php -r "echo PHP_MAJOR_VERSION;")
+    #local PHP_MINOR_VERSION=$(php -r "echo PHP_MINOR_VERSION;")
 
-    if [[ "$PHP_MAJOR_VERSION" -gt "$1" || "$PHP_MAJOR_VERSION" -eq "$1" && "$PHP_MINOR_VERSION" -ge "$2" ]]; then
-        return 1;
-    else
-        return 0;
-    fi
+    #if [[ "$PHP_MAJOR_VERSION" -gt "$1" || "$PHP_MAJOR_VERSION" -eq "$1" && "$PHP_MINOR_VERSION" -ge "$2" ]]; then
+    #    return 1;
+    #else
+    #    return 0;
+    #fi
+    return 1;
 }
 
 
