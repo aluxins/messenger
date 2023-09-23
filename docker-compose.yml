@@ -6,6 +6,7 @@ services:
   # MySQL Service
   mysql:
     image: mariadb:11
+    container_name: messenger-db
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: "%"
@@ -13,11 +14,13 @@ services:
     restart: always
     volumes:
       - ./.docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-      - mariadbdata:/var/lib/mysql
+      - db-data:/var/lib/mysql
+      - ./.docker/mysql/dump.sql:/docker-entrypoint-initdb.d/dump.sql
 
   # PhpMyAdmin Service
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.1
+    container_name: messenger-tool
     ports:
       - "8080:80"
     restart: always
@@ -29,6 +32,7 @@ services:
   # PHP Service
   php:
     build: ./.docker/php
+    container_name: messenger-php
     ports:
       - "80:40990"
       - "40991:40991"
@@ -47,4 +51,4 @@ services:
 # Volumes
 volumes:
 
-  mariadbdata:
+  db-data:
