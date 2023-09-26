@@ -22,7 +22,7 @@
                     <?=$error['msg']?>
                   </div>
                 <?}?>
-                <form action="/user/login" method="post" novalidate>
+                <form action="user/login" method="post" novalidate>
 
                   <!-- Nick input -->
                   <div class="form-outline mb-4">
@@ -70,7 +70,7 @@
                     <div class="fw-light"><?=$error['description']?></div>
                   </div>
                 <?}?>
-                <form action="/user/register" enctype="multipart/form-data" method="post">
+                <form action="user/register" enctype="multipart/form-data" method="post">
 
                   <!-- Nick input -->
                   <div class="form-outline mb-4">
@@ -93,7 +93,7 @@
                       <input class="form-check-input" type="radio" name="registerAvatarDefault" id="registerAvatarDefault0" value="avatar-0.webp" 
                         <?if(in_array($data['registerAvatarDefault'], ['','avatar-0.webp']))echo'checked'?>>
                       <label class="form-check-label" for="registerAvatarDefault0">
-                        <img alt="avatar" id="user-avatar" src="../upload/avatar-0.webp"
+                        <img alt="avatar" id="user-avatar" src="upload/avatar-0.webp"
                             title="Случайный выбор" class="rounded-circle m-1 shadow-1-strong" width="70">
                       </label>
                     </div>
@@ -102,7 +102,7 @@
                       <input class="form-check-input" type="radio" name="registerAvatarDefault" id="registerAvatarDefault<?=$i?>" value="avatar-<?=$i?>.webp"
                       <?if($data['registerAvatarDefault']=='avatar-'.$i.'.webp')echo'checked'?>>
                       <label class="form-check-label" for="registerAvatarDefault<?=$i?>">
-                        <img alt="avatar" id="user-avatar<?=$i?>" src="../upload/avatar-<?=$i?>.webp"
+                        <img alt="avatar" id="user-avatar<?=$i?>" src="upload/avatar-<?=$i?>.webp"
                             class="rounded-circle m-1 shadow-1-strong" width="70">
                       </label>
                     </div>

@@ -19,7 +19,7 @@ class UserController
      */
     public function index(Request $request): Response
     {
-        return redirect('/index');
+        return redirect(config('app.base_url').'/index');
     }
 
     /**
@@ -29,7 +29,7 @@ class UserController
     public function quit(Request $request): Response
     {
         $request->session()->flush();
-        return redirect('/index');
+        return redirect(config('app.base_url').'/index');
     }
 
 
@@ -77,7 +77,7 @@ class UserController
                     $session = $request->session();
                     $session->set('id_user', $id_user);
                     Log::info('Login user '. $id_user);
-                    return redirect('/chat');
+                    return redirect(config('app.base_url').'/chat');
                 }
                 else $error['msg'] = 'Пользователь с таким никнеймом или паролем не найден';
 
@@ -156,7 +156,7 @@ class UserController
                         $session->set('id_user', $id_user);
                         $session->delete('captchaValidate');
                         $session->delete('captcha');
-                        return redirect('/chat');
+                        return redirect(config('app.base_url').'/chat');
                     }
                 }
                     

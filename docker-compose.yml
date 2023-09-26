@@ -44,6 +44,8 @@ services:
       DB_DATABASE: messenger
       DB_USERNAME: root
       DB_PASSWORD: root
+      SERVER_NAME: ''
+      SERVER_BASE: ''
     restart: always
     depends_on:
       - mysql

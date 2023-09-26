@@ -25,5 +25,7 @@ return [
     'controller_reuse' => false,
     'max_char_msg' => 1000,
     'echo_bot_id' => 1, //false или ID бота
-    'websocket_protocol' => 'ws', //ws, wss
+    'ws_server' => 'ws://'. (empty($_ENV['SERVER_NAME'])?'localhost':$_ENV['SERVER_NAME']) .
+                    ':40991', //URL server WebSocket. Protocol ws:// or wss://.
+    'base_url' => empty($_ENV['SERVER_BASE'])?'':'/'.$_ENV['SERVER_BASE'], //Базовый URL приложения
 ];

@@ -18,8 +18,8 @@ class WrapView implements MiddlewareInterface
      */
     public function process(Request $request, callable $handler): Response
     {
-        $host = explode(":", $request->header()['host']);
-        $header = view('template/header', ['ip' => config('app.websocket_protocol')."://".$host[0].":40991",
+        $header = view('template/header', ['ws_server' => config('app.ws_server'),
+            'base_url' => config('app.base_url'),
             'controller' => $request->controller])->rawBody();
         $footer = view('template/footer')->rawBody();
         
