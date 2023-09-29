@@ -13,19 +13,27 @@ user: demo/demo
 
 Choose one of the two options.
 
-1. Install from source
-
+1. Install with Docker Compose
 	```
 	git clone https://github.com/aluxins/messenger
-	composer install -d webman
-	```
-2. Install with Docker Compose
-	```
-	git clone https://github.com/aluxins/messenger
+ 	cd messenger
 	docker-compose up -d
 	docker exec -it messenger-php composer update
 	docker restart messenger-php
 	```
+
+2. Install from source
+
+	```
+	git clone https://github.com/aluxins/messenger
+ 	cd messenger/webman
+	composer install
+ 	php start.php start -d
+	```
+Open in your browser http://localhost:40990/
+
+If you chose the second option, take care of importing the database *.docker/mysql/dump.sql* to your MySQL/MariaDB server.
+And edit the database connection in the file *webman/config/database.php*.
 
 ## SSL
 
