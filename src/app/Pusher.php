@@ -18,7 +18,7 @@ class Pusher
 	    //Передаем в массив $array_id ключ Sec_WebSocket_Key и идентификатор пользователя при удачном подлючении клиента к Веб-сокету
     	$connection->onWebSocketConnect = function($connection){
     	    //Определяем идентификатор сессии из COOKIE и присваеваем к текущему сеансу
-            if(!empty($_SERVER['HTTP_COOKIE']) and preg_match('/^PHPSID=([0-9a-z]+)/', $_SERVER['HTTP_COOKIE'], $matches)){
+            if(!empty($_SERVER['HTTP_COOKIE']) and preg_match('/PHPSID=([0-9a-z]+)/', $_SERVER['HTTP_COOKIE'], $matches)){
                 $session = new Session($matches[1]);
                 $connection->session = $session;
                 $connection->Sec_WebSocket_Key = $_SERVER['HTTP_SEC_WEBSOCKET_KEY'];
