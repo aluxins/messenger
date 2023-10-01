@@ -15,18 +15,15 @@
 use Workerman\Worker;
 
 return [
-    // File update detection and automatic reload
-    'task'  => [
-        'handler'  => process\Task::class
-    ],
 
     // websocket
     'websocket' => [
         'handler' => app\Pusher::class,
-        'listen'  => 'websocket://0.0.0.0:40991',
+        'listen'  => 'websocket://0.0.0.0:2346',
         'count'   => 1,
     ],
-    
+
+    // File update detection and automatic reload
     'monitor' => [
         'handler' => process\Monitor::class,
         'reloadable' => false,
