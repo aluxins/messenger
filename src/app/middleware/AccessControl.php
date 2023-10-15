@@ -18,6 +18,6 @@ class AccessControl implements MiddlewareInterface
         if (session('id_user')) 
             return $handler($request);
         else
-            return redirect('/user/login');
+            return redirect(config('app.base_url').'/user/login');
     }
 }
